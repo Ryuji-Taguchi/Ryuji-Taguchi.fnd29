@@ -2,10 +2,15 @@
 
 // document.write('<p  style="position:relative; top:-220px; left: 240px;  width: 40px;  height: 40px; overflow: hidden;" id=blue_puyo"><img  width="242" style = "position: relative; left: -121px;" src="puyopuyo.png"></p>')
 
-const redPuyo = 'width: 40px;  height: 40px;  overflow: hidden;" id="red_puyo"><img  width="242" src="images/puyopuyo.png"></p>'
-const greenPuyo = 'width: 40px;  height: 40px; overflow: hidden;" id="green_puyo"><img  width="242" style = "position: relative; left: -40px;" src="images/puyopuyo.png"></p>'
-const bluePuyo = 'width: 40px;  height: 40px; overflow: hidden;" id=blue_puyo><img  width="242" style = "position: relative; left: -81px;" src="images/puyopuyo.png"></p>'
-const yellowPuyo = 'width: 40px;  height: 40px; overflow: hidden;" id=yellow_puyo><img  width="242" style = "position: relative; left: -121px;" src="images/puyopuyo.png"></p>'
+// const redPuyo = 'width: 40px;  height: 40px;  overflow: hidden;" id="red_puyo"><img  width="242" src="images/redfuyo.png"></p>'
+// const greenPuyo = 'width: 40px;  height: 40px; overflow: hidden;" id="green_puyo"><img  width="242" style = "position: relative; left: -40px;" src="images/greenfuyo.png"></p>'
+// const bluePuyo = 'width: 40px;  height: 40px; overflow: hidden;" id=blue_puyo><img  width="242" style = "position: relative; left: -81px;" src="images/bluefuyo.png"></p>'
+// const yellowPuyo = 'width: 40px;  height: 40px; overflow: hidden;" id=yellow_puyo><img  width="242" style = "position: relative; left: -121px;" src="images/yellowfuyo.png"></p>'
+
+const redPuyo = 'width: 40px;  height: 40px;  id="red_puyo"><img width="40"  src="images/redfuyo.png"></p>'
+const greenPuyo = 'width: 40px;  height: 40px; id="green_puyo"><img width="40"  src="images/greenfuyo.png"></p>'
+const bluePuyo = 'width: 40px;  height: 40px; id="blue_puyo"><img width="40" src="images/bluefuyo.png"></p>'
+const yellowPuyo = 'width: 40px;  height: 40px; id="yellow_puyo"><img width="40" src="images/yellowfuyo.png"></p>'
 
 const stageStatus = {
   isPuyo: false,
@@ -63,6 +68,9 @@ let chain = 0;
 //最大連鎖数
 let maxChains = 0;
 
+//await周期変数
+let awaitTime = 0.5;
+
 const stage = [
   JSON.parse(JSON.stringify(lineArray)),
   JSON.parse(JSON.stringify(lineArray)),
@@ -106,8 +114,8 @@ async function game(){
   while (true) {
     fall = false;
 
-    await sleep(0.4)
-    setInterval(canMovePuyo = true, 2000)
+    await sleep(awaitTime)
+    setInterval(canMovePuyo = true, 1000)
 
     //最初のぷよを配置
     if (createPuyo === true) {
@@ -119,7 +127,7 @@ async function game(){
       }
 
       createNewPuyo();
-      
+      awaitTime = 0.4;
     }
 
     document.addEventListener('keydown', (e) => {
@@ -132,8 +140,18 @@ async function game(){
         keyPress(e.key);
         canMovePuyo = false;
       }
+      if (e.key === "ArrowDown" && canMovePuyo && stage[y][x].isFallingPuyo === true && stage[suby][subx].isFallingPuyo === true) {
+        keyPress(e.key);
+        canMovePuyo = false;
+      }
       if (e.key === "z" && canMovePuyo && stage[y][x].isFallingPuyo === true && stage[suby][subx].isFallingPuyo === true) {
         keyPress(e.key);
+        canMovePuyo = false;
+      }});
+    document.addEventListener('keyup', (e) => {
+      // キーボードが押され終わった場合
+      if (e.key === "ArrowDown"  && stage[y][x].isFallingPuyo === true && stage[suby][subx].isFallingPuyo === true) {
+        keyUp(e.key);
         canMovePuyo = false;
       }});
     
@@ -195,6 +213,7 @@ async function game(){
         if (chain > maxChains) {
           maxChains = chain;  
           document.getElementById("chain").innerHTML = "最大連鎖数<br>" + String(maxChains) +  "れんさ！"
+
         }
       }
     }
