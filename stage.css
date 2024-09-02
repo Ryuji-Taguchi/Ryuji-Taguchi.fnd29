@@ -15,6 +15,14 @@
     left: 900px;
 }
 
+#tutorial {
+    position: absolute;
+    font-size: large;
+    color: white;
+    top: 500px;
+    left: 450px;
+}
+
 #next {
     background-color: black;
     position: absolute;
@@ -55,20 +63,19 @@ body {
 
 #gameOver {
     position: absolute;
-    width: 240px;
+    width: 480px;
     height: 240px;
-    top: 150px;
-    left: 642px;
-    box-shadow: inset 0 0 15px 15px black;
+    top: 250px;
+    left: 520px;
     display: none;
 }
 
 #title {
     position: absolute;
-    width: 290px;
+    width: 400px;
     height: 120px;
     top: 10px;
-    left: 642px;
+    left: 550px;
 }
 
 .btn{
