@@ -551,7 +551,7 @@ function initialPuyo() {
           puyoMoveLeft();
           break;
         }
-      case 'ArrowRight':
+      case 'ArrowRight':    
         //移動先にぷよがあるかチェック
         if (x === 5 || subx === 5) {
           return;
@@ -563,7 +563,11 @@ function initialPuyo() {
           puyoMoveRight();
           break;
         }
-      
+
+      case 'ArrowDown':
+        awaitTime = 0.1;
+        break;
+
       case 'z':
         rotatePuyo();
         break;
@@ -571,3 +575,11 @@ function initialPuyo() {
     drawBoard();
   }
   
+  function keyUp(key) {
+    switch(key) {
+      case 'ArrowDown':
+        awaitTime = 0.4;
+        break;
+    }
+    drawBoard();
+  }
